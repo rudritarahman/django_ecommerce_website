@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Cart {% endblock %}
+
+{% block body %}
+
+{% if messages %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="container">
+    <h2 class="text-center">Cart</h2>
+
+    {% if is_authenticated %}
+    <!-- Authenticated user's cart details -->
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="text-center">
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for item in cart_items %}
+                <tr>
+                    <td><img src="{{ item.product.product_image.url }}" alt="{{ item.product.product_name }}"
+                            style="width: 80px;"></td>
+                    <td>{{ item.product.product_name }}</td>
+                    <td>TK {{ item.product.product_price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>TK {{ item.total_price }}</td>
+                    <td>
+                        <a href="{% url 'increament_cart' item.id %}" class="btn btn-sm btn-success">+</a>
+                        <a href="{% url 'decreament_cart' item.id %}" class="btn btn-sm btn-warning">-</a>
+                        <a href="{% url 'remove_cart' item.id %}" class="btn btn-sm btn-danger">Remove</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Your cart is empty.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Delivery Location Form -->
+    <form method="post" id="delivery-location-form" class="my-3">
+        {% csrf_token %}
+        <h4>Select Delivery Location:</h4>
+        <label>
+            <input type="radio" name="delivery_location" value="inside_dhaka"
+                {% if cart.delivery_location == 'inside_dhaka' %}checked{% endif %}
+                onchange="document.getElementById('delivery-location-form').submit()">
+            Inside Dhaka (80 taka)
+        </label>
+        <br>
+        <label>
+            <input type="radio" name="delivery_location" value="outside_dhaka"
+                {% if cart.delivery_location == 'outside_dhaka' %}checked{% endif %}
+                onchange="document.getElementById('delivery-location-form').submit()">
+            Outside Dhaka (130 taka)
+        </label>
+    </form>
+
+    <div class="my-3">
+        <h4>Total Amount (including delivery): {{ cart.total_amount }}</h4>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'checkout' %}" class="btn btn-success">Proceed to Checkout</a>
+    </div>
+
+    {% else %}
+    <div class="alert alert-info text-center">
+        <!-- <h4>Sorry, nothing is added in the cart. <br> To place an order, you have to log into your account.</h4> -->
+        {{ login_message }}
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

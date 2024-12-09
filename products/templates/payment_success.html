@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Payment Success {% endblock %}
+
+{% block body %}
+
+{% if messages %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="container text-center mt-5">
+    <h1 class="text-success">Payment Successful!</h1>
+    <p>Your payment was processed successfully. Thank you for your purchase! <br> Your order ID is {{ order.id }}</p>
+    <a href="{% url 'product_list' %}" class="btn btn-primary">Continue Shopping</a>
+</div>
+
+{% endblock %}

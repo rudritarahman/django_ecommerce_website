@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Checkout {% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h2>Checkout</h2>
+    <form method="post" action="{% url 'checkout' %}">
+        {% csrf_token %}
+        <div class="container my-5">
+            <!-- Delivery Address Section -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Delivery Address</h5>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" placeholder="Enter your delivery address" required>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preferred Delivery Time Section -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Preferred Delivery Time</h5>
+                    <div class="mb-3">
+                        <select class="form-select" required>
+                            <option value="" disabled selected>Select delivery time</option>
+                            <option value="8-10am">8:00 AM - 10:00 AM</option>
+                            <option value="9-11am">9:00 AM - 11:00 AM</option>
+                            <option value="10-12pm">10:00 AM - 12:00 PM</option>
+                            <option value="11-1pm">11:00 AM - 1:00 PM</option>
+                            <option value="12-2pm">12:00 PM - 2:00 PM</option>
+                            <option value="2-4pm">2:00 PM - 4:00 PM</option>
+                            <option value="4-6pm">4:00 PM - 6:00 PM</option>
+                            <option value="5-7pm">5:00 PM - 7:00 PM</option>
+                            <option value="6-8pm">6:00 PM - 8:00 PM</option>
+                            <option value="7-9pm">7:00 PM - 9:00 PM</option>
+                            <option value="8-10pm">8:00 PM - 10:00 PM</option>
+                            <option value="9-11pm">9:00 PM - 11:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Checkout Button -->
+            <div class="text-center">
+                <a href="{% url 'payment_gateway' %}" type="submit" class="btn btn-danger">Proceed to Payment</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

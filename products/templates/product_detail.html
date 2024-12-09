@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} {{ product.name }} {% endblock %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ product.product_image.url }}" class="img-fluid" alt="{{ product.product_name }}">
+        </div>
+        <div class="col-md-6 mt-4">
+            <h3>{{ product.product_name }}</h3>
+            <p><strong>Category:</strong> {{ product.product_category.name }}</p> <!-- Display category name -->
+            <p style="text-align: justify;">{{ product.product_details }}</p>
+            <p><strong>Price:</strong> Tk {{ product.product_price }}</p>
+            <form action="{% url 'add_to_cart' product.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-secondary">Add to Cart</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

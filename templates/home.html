@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Home {% endblock %}
+
+{% block body %}
+
+<!-- Hero Banner -->
+<section class="hero-banner d-flex align-items-center text-white text-center"
+    style="position: relative; height: 30rem; background-image: url('{% static 'images/hero-banner.jpg' %}'); background-position: center; background-size: cover;">
+    <div class="overlay"
+        style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.5);"></div>
+    <div class="container position-relative" style="z-index: 1;">
+        <h1>Discover the Latest Sneakers</h1>
+        <p>Shop the newest releases and exclusive collections</p>
+        <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
+    </div>
+</section>
+
+<!-- Featured Products -->
+<div class="container my-5">
+    <h2 class="text-center">Our Categories</h2>
+
+    <!-- Loop through each category -->
+    {% for category in categories %}
+    <div class="category-section my-3">
+        <h3>{{ category.name }}</h3>
+        <div class="row">
+            <!-- Loop through each product in the current category -->
+            {% for product in category.product_set.all %}
+            <div class="col-md-3 my-3">
+                <div class="card" style="height: 28rem;">
+                    <img src="{{ product.product_image.url }}" class="card-img-top" alt="{{ product.product_name }}"
+                        style="height: 18rem;">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">{{ product.product_name }}</h5>
+                        <p class="card-text">Tk {{ product.product_price }}</p>
+                        <div class="d-flex justify-content-center">
+                            <a href="{% url 'product_detail' product.id %}"
+                                class="btn btn-sm btn-outline-dark me-2">View
+                                Product</a>
+                            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-sm btn-secondary">Add to
+                                Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

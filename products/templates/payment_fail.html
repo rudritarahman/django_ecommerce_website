@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} Payment Failed {% endblock %}
+
+{% block body %}
+
+{% if messages %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="container text-center mt-5">
+    <h1 class="text-danger">Payment Failed</h1>
+    <p>Unfortunately, we couldn't process your payment. Please try again or use a different payment method. <br> Your order ID is {{ order.id }}</p>
+    <a href="{% url 'cart' %}" class="btn btn-warning">Go Back to Cart</a>
+</div>
+
+{% endblock %}
